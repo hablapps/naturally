@@ -36,4 +36,4 @@ You can find the whole example [here](src/test/scala/University.scala).
 
 Finally, we must say that we are exploiting this idea to provide automatic instances of state-based algebraic theories in the upcoming new version of [Stateless](http://github.com/hablapps/stateless). However, we find this technique general enough to publish it on its own. Having said so, we hope you find a crazy scenario where you can apply it! 
 
-__(*) As @julien-truffaut pointed out, you can use `GenLens[City](_.university.name)` to get the same behaviour in Monocle. Anyway, the `Shapelens` type class is still useful when you require implicit lens evidences in scope.___
+_(*) As @julien-truffaut pointed out, you can use `GenLens[City](_.university.name)` to get the same behaviour in Monocle. Anyway, the `Shapelens` type class is still useful when you require implicit lens evidences in scope._
