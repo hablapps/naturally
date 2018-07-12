@@ -45,6 +45,6 @@ class UniversitySpec extends FlatSpec with Matchers {
   type name = Witness.`'name`.T
   type university = Witness.`'university`.T
   type math = Witness.`'math`.T
-  type budget = Witness.`'budget`.T 
+  type budget = Witness.`'budget`.T
 }
 
