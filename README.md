@@ -17,7 +17,7 @@ import monocle.Lens
 val nameLn: Lens[City, String] = Shapelens['name :: HNil, City, Int]
 ```
 
-_(*) The current encodings use `Witness.`'name`.T` instead of `'name`, so we need to provide ad hoc aliases to make the invocation readable._
+_(*) The current encodings use ``Witness.`'name`.T`` instead of `'name`, so we need to provide ad hoc aliases to make the invocation readable._
 
 As you can see, we need to provide the context where we expect to find the field. Thereby, if we were interested in pointing at a nested field we'd need to provide the full path:
 
