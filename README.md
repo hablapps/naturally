@@ -1,6 +1,6 @@
 # Shapelens
 
-This is just an experiment to deploy [monocle](https://github.com/julien-truffaut/Monocle) `Lens`es as implicit values, using [shapeless](https://github.com/milessabin/shapeless) instead of macros. 
+This is just an experiment to generate and deploy the [monocle](https://github.com/julien-truffaut/Monocle) `Lens`es associated to a case class as implicit values, using [shapeless](https://github.com/milessabin/shapeless) instead of macros. 
 
 Consider the following hierarchy of nested case classes as an example:
 
@@ -17,7 +17,7 @@ import monocle.Lens
 val nameLn: Lens[City, String] = Shapelens[City, 'name :: HNil]
 ```
 
-_(*) The current encodings use `Witness.`'name`.T` instead of `'name`, so we need to provide ad hoc aliases to make the invocation readable._
+_(*) The current encodings use ``Witness.`'name`.T`` instead of `'name`, so we need to provide ad hoc aliases to make the invocation readable._
 
 As you can see, beyond the involved case class, we need to provide the context where we expect to find the field. Thereby, if we were interested in pointing at a nested field we'd need to reflect it in the path:
 
