@@ -15,29 +15,25 @@ class UniversitySpec extends FlatSpec with Matchers {
   val mostoles = City(200000, "mostoles", urjc)
 
   "Shapelens" should "generate a lens for a particular field" in {
-    val population = Shapelens[population :: HNil, City, Int]
+    val population = Shapelens[City, population :: HNil]
     population.get(mostoles) shouldBe 200000
     population.modify(_ * 2)(mostoles) shouldBe mostoles.copy(population = 400000)
   }
 
   it should "generate a lens for a nested field" in {
-    val budget = Shapelens[math :: budget :: HNil, University, Int]
+    val budget = Shapelens[University, math :: budget :: HNil]
     budget.get(urjc) shouldBe math.budget
     budget.set(0)(urjc) shouldBe urjc.copy(math = Department(0))
   }
 
   it should "disambiguate conflicts using path" in {
-    val cityName = Shapelens[name :: HNil, City, String]
-    val univName = Shapelens[university :: name :: HNil, City, String]
+    val cityName = Shapelens[City, name :: HNil]
+    val univName = Shapelens[City, university :: name :: HNil]
     cityName.get(mostoles) shouldBe mostoles.name
     univName.get(mostoles) shouldBe mostoles.university.name
   }
 
-  // Shapelens with incorrect type
-  "Shapelens[name :: HNil, City, Int]" shouldNot compile
-
-  // Shapelens with incorrect name
-  "Shapelens[budget :: HNil, City, Int]" shouldNot compile
+  "Shapelens[City, budget :: HNil]" shouldNot compile
 
   // XXX: is it possible to integrate `LabelledGeneric` with literal types? If
   // so, we could avoid these aliases and use `'population` directly!
