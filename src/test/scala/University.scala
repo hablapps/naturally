@@ -3,6 +3,7 @@ package test
 
 import org.scalatest._
 import shapeless._
+import monocle._
 
 class UniversitySpec extends FlatSpec with Matchers {
 
@@ -29,11 +30,18 @@ class UniversitySpec extends FlatSpec with Matchers {
   it should "disambiguate conflicts using path" in {
     val cityName = Shapelens[City, name :: HNil]
     val univName = Shapelens[City, university :: name :: HNil]
+
+    implicitly[Shapelens.Aux[City, population :: HNil, Int]]
     cityName.get(mostoles) shouldBe mostoles.name
     univName.get(mostoles) shouldBe mostoles.university.name
   }
 
   "Shapelens[City, budget :: HNil]" shouldNot compile
+
+  "Shapegetter" should "generate a Getter whenever we have a Lens" in {
+    val population: Getter[City, Int] = Shapegetter[City, population :: HNil]
+    population.get(mostoles) shouldBe 200000
+  }
 
   // XXX: is it possible to integrate `LabelledGeneric` with literal types? If
   // so, we could avoid these aliases and use `'population` directly!
