@@ -9,17 +9,11 @@ trait Shapelens[S, Ctx <: HList] {
   val value: Lens[S, A]
 }
 
-
-trait Shapelens[S, A] {
-  type Ctx <: HList
-  val value: List[Lens[S, A]]
-}
-
 object Shapelens {
 
   type Aux[S, Ctx <: HList, A2] = Shapelens[S, Ctx] { type A = A2 }
 
-  def apply[S, Ctx <: HList](implicit ln: Shapelens[S, Ctx]): Lens[S, ln.A] =
+  def apply[S, Ctx <: HList](implicit ln: Shapelens[S, Ctx]): Lens[S, ln.A] = 
     ln.value
 
   def apply[S, Ctx <: HList, A2](ln: Lens[S, A2]): Aux[S, Ctx, A2] =
