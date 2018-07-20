@@ -1,7 +1,7 @@
-package org.hablapps.shapelens
+package shapelens
 package test
 
-import scalaz._
+import cats.~>, cats.data.{Kleisli, Reader}
 
 import shapeless._, record._
 

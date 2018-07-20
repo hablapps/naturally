@@ -1,6 +1,6 @@
-package org.hablapps.shapelens
+package shapelens
 
-import scalaz._
+import cats.~>, cats.data.Kleisli
 
 import shapeless._, ops.record._
 

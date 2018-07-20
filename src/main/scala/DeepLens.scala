@@ -1,4 +1,4 @@
-package org.hablapps.shapelens
+package shapelens
 
 import scalaz._, Scalaz._
 import shapeless._, labelled._

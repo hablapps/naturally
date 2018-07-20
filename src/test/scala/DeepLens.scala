@@ -1,4 +1,4 @@
-package org.hablapps.shapelens
+package shapelens
 package test
 
 import org.scalatest._
