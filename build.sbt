@@ -1,5 +1,5 @@
 name := "shapelens"
-version := "0.1"
+version := "0.1-SNAPSHOT"
 
 organization := "org.hablapps"
 
@@ -41,7 +41,7 @@ libraryDependencies ++= Seq(
   "org.typelevel" %% "cats-core" % "1.1.0",
   "org.scalactic" %% "scalactic" % "3.0.5",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "com.chuusai" %% "shapeless" % "2.3.3",
+  "com.chuusai" %% "shapeless" % "2.3.2",
   "com.github.julien-truffaut" %%  "monocle-core"  % monocleVersion,
   "com.github.julien-truffaut" %%  "monocle-macro" % monocleVersion,
   "com.github.julien-truffaut" %%  "monocle-law"   % monocleVersion % "test")

@@ -1,36 +1,44 @@
 package shapelens
 
-import cats.~>, cats.data.Kleisli
+import cats._, cats.data._
 
 import shapeless._, ops.hlist._
 
-object SurfaceGetter{
+trait SurfaceGetter[E2, E1]{
+  def apply[P[_]]: Kleisli[P, E1, ?] ~> Kleisli[P, E2, ?]
+}
 
-  trait Implicits extends LPI{
-    implicit def surfaceGetter_singleField[
-        P[_], E2, E1, LE2 <: HList](implicit
-        GE2: Generic.Aux[E2, LE2],
-        S: Selector[LE2, E1]) =
-      λ[Kleisli[P, E1,?] ~> Kleisli[P, E2,?]]{
-        _.local(GE2.to _ andThen S.apply)
-      }
-  }
-
-  trait LPI{
-    implicit def surfaceGetter_multipleField[
-        P[_], E2, E1, LE2 <: HList, LE1 <: HList](implicit
-        GE2: Generic.Aux[E2, LE2],
-        GE1: Generic.Aux[E1, LE1],
-        S: SelectAll[LE2, LE1]) =
-      λ[Kleisli[P, E1,?] ~> Kleisli[P, E2,?]]{
-        _.local(GE2.to _ andThen S.apply andThen GE1.from)
-      }
-  }
+object SurfaceGetter extends SurfaceGetterImplicits{
 
   trait Syntax{
     implicit def readerView[P[_], E2, E1, T](
         r: Kleisli[P, E1, T])(implicit
-        nat: Kleisli[P, E1, ?] ~> Kleisli[P, E2, ?]): Kleisli[P, E2, T] =
-      nat(r)
+        S: SurfaceGetter[E2, E1]): Kleisli[P, E2, T] =
+      S.apply(r)
   }
 }
+
+trait SurfaceGetterImplicits extends SurfaceGetterLPI{
+
+  implicit def surfaceGetter_singleField[
+      E2, E1, LE2 <: HList](implicit
+      GE2: Generic.Aux[E2, LE2],
+      S: Selector[LE2, E1]) = new SurfaceGetter[E2, E1]{
+    def apply[P[_]] = λ[Kleisli[P, E1,?] ~> Kleisli[P, E2,?]]{
+      _.local(GE2.to _ andThen S.apply)
+    }
+  }
+}
+
+trait SurfaceGetterLPI{
+  implicit def surfaceGetter_multipleField[
+      E2, E1, LE2 <: HList, LE1 <: HList](implicit
+      GE2: Generic.Aux[E2, LE2],
+      GE1: Generic.Aux[E1, LE1],
+      S: SelectAll[LE2, LE1]) = new SurfaceGetter[E2, E1]{
+    def apply[P[_]] = λ[Kleisli[P, E1,?] ~> Kleisli[P, E2,?]]{
+      _.local(GE2.to _ andThen S.apply andThen GE1.from)
+    }
+  }
+}
+

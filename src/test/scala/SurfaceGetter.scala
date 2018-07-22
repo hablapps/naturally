@@ -1,9 +1,9 @@
 package shapelens
 package test
 
-import cats.~>, cats.data.{Kleisli, Reader}
+import cats.data.{Kleisli, Reader}
 
-import shapeless._, record._
+import shapeless._
 
 import org.scalatest._
 

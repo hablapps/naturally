@@ -1,4 +1,3 @@
 package object shapelens
-  extends SurfaceGetter.Implicits
-  with SurfaceGetter.Syntax
+  extends SurfaceGetter.Syntax
   with SurfaceGetterK.Syntax

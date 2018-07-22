@@ -8,7 +8,7 @@ trait SurfaceGetterK[E2, E1, K]{
   def apply[P[_]]: Kleisli[P, E1, ?] ~> Kleisli[P, E2, ?]
 }
 
-object SurfaceGetterK extends SurfaceGetterImplicits{
+object SurfaceGetterK extends SurfaceGetterKImplicits{
 
   trait Syntax{
     implicit class SurfaceGetterKOps[P[_], E1, T](r: Kleisli[P, E1, T]){
@@ -21,7 +21,7 @@ object SurfaceGetterK extends SurfaceGetterImplicits{
   }
 }
 
-trait SurfaceGetterImplicits extends SurfaceGetterImplicitsLPI{
+trait SurfaceGetterKImplicits extends SurfaceGetterKImplicitsLPI{
 
   def apply[E1, E2, K](implicit R: SurfaceGetterK[E1, E2, K]) = R
 
@@ -36,7 +36,7 @@ trait SurfaceGetterImplicits extends SurfaceGetterImplicitsLPI{
     }
 }
 
-trait SurfaceGetterImplicitsLPI{
+trait SurfaceGetterKImplicitsLPI{
 
   implicit def surfaceGetterK_multipleField[
       E2, E1, K <: HList, LE2 <: HList, LE1 <: HList](implicit
