@@ -1,7 +1,7 @@
 package shapelens
 package test
 
-import cats.~>, cats.data.Reader
+import cats.{Id, ~>}, cats.data.{Kleisli, Reader}
 
 import shapeless._, record._
 import shapeless.syntax.singleton._
@@ -19,7 +19,7 @@ class SurfaceGetterKSpec extends FunSpec with Matchers {
       Reader{ _ => () }
 
     it("should work without syntax"){
-      SurfaceGetterK[
+      SurfaceGetterK[Id,
         (Boolean, Int, String, Char),
         (Int, String),
         Witness.`'_2`.T :: Witness.`'_3`.T :: HNil
@@ -34,7 +34,7 @@ class SurfaceGetterKSpec extends FunSpec with Matchers {
 
     it("should work for single selections"){
 
-      SurfaceGetterK[
+      SurfaceGetterK[Id,
         (Boolean, Int, String, Char),
         Int,
         Witness.`'_2`.T
@@ -42,7 +42,9 @@ class SurfaceGetterKSpec extends FunSpec with Matchers {
         Reader[(Boolean, Int, String, Char), Unit]
 
       val rBISC_2: Reader[(Boolean, Int, String, Char), Int] =
-        Reader[Int, Int](identity) at '_2
+        Reader[Int, Int](identity).at[(Boolean, Int, String, Char)]('_2)(
+          SurfaceGetterK[Id,(Boolean, Int, String, Char),Int,Witness.`'_2`.T])
+            // TBD: why is this parameter not found implicitly?
 
       rBISC_2((true, 1, "", 'a')) shouldBe 1
     }

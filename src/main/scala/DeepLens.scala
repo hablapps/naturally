@@ -1,8 +1,8 @@
 package shapelens
 
-import scalaz._
-import shapeless._
-import monocle.Lens
+import scalaz._, Scalaz._
+import shapeless._, labelled._
+import _root_.monocle.Lens
 
 trait DeepLens[S, Ctx <: HList] {
   type A
