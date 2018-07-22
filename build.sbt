@@ -45,30 +45,3 @@ libraryDependencies ++= Seq(
   "com.github.julien-truffaut" %%  "monocle-core"  % monocleVersion,
   "com.github.julien-truffaut" %%  "monocle-macro" % monocleVersion,
   "com.github.julien-truffaut" %%  "monocle-law"   % monocleVersion % "test")
-
-
-// Sonatype publishing conf.
-import xerial.sbt.Sonatype._
-
-publishTo := sonatypePublishTo.value
-sonatypeProfileName := "org.hablapps"
-publishMavenStyle := true
-licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
-sonatypeProjectHosting := Some(GitHubHosting("hablapps", "shapelens", "juanmanuel.serrano@hablapps.com"))
-homepage := Some(url("https://github.com/hablapps/shapelens"))
-scmInfo := Some(
-  ScmInfo(
-    url("https://github.com/hablapps/shapelens"),
-    "scm:git@github.com:hablapps/shapelens.git"
-  )
-)
-developers := List(
-  Developer(id="jserranohidalgo",
-    name="Juan Manuel Serrano Hidalgo",
-    email="juanmanuel.serrano@hablapps.com",
-    url=url("http://www.hablapps.com")),
-  Developer(id="jeslg",
-    name="Jesús López González",
-    email="jesus.lopez@hablapps.com",
-    url=url("http://www.hablapps.com"))
-)
