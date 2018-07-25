@@ -12,7 +12,9 @@ class UniversitySpec extends FlatSpec with Matchers {
 
   val math = Department(50000)
   val urjc = University("urjc", math)
+  val uc3m = University("uc3m", math)
   val mostoles = City(200000, "mostoles", urjc)
+  val leganes  = City(150000, "leganes",  uc3m)
 
   "Shapelens" should "generate a lens for a particular field" in {
     val population = Shapelens[City, population :: HNil]
@@ -31,6 +33,12 @@ class UniversitySpec extends FlatSpec with Matchers {
     val univName = Shapelens[City, university :: name :: HNil]
     cityName.get(mostoles) shouldBe mostoles.name
     univName.get(mostoles) shouldBe mostoles.university.name
+  }
+
+  it should "generate the identity lens" in {
+    val city = Shapelens[City, HNil]
+    city.get(mostoles) shouldBe mostoles
+    city.set(leganes)(mostoles) shouldBe leganes
   }
 
   "Shapelens[City, budget :: HNil]" shouldNot compile
