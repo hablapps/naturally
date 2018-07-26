@@ -23,11 +23,8 @@ object Shapelens {
     apply(Lens.id)
   
   implicit def inductive[S, H, T <: HList, A, B](implicit
-      hLens: MkFieldLens.Aux[S, H, A],
-      tLens: Aux[A, T, B]): Aux[S, H :: T, B] =
-    apply(toLens(hLens()) composeLens tLens.value)
-
-  private def toLens[S, A](sln: shapeless.Lens[S, A]): Lens[S, A] =
-    Lens(sln.get)(a => s => sln.set(s)(a))
+      hln: MkFieldLens.Aux[S, H, A],
+      tln: Aux[A, T, B]): Aux[S, H :: T, B] =
+    apply(Lens(hln().get)(a => s => hln().set(s)(a)) composeLens tln.value)
 }
 
