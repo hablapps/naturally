@@ -1,6 +1,6 @@
 package org.hablapps.shapelens
 
-import scalaz._, Scalaz._
+import scalaz._
 import shapeless._
 import monocle.Lens
 
@@ -19,16 +19,15 @@ object Shapelens {
   def apply[S, Ctx <: HList, A2](ln: Lens[S, A2]): Aux[S, Ctx, A2] =
     new Shapelens[S, Ctx] { type A = A2; val value = ln }
 
-  implicit def id[S]: Aux[S, HNil, S] =
+  implicit def base[S]: Aux[S, HNil, S] =
     apply(Lens.id)
   
-  implicit def base[S, H, A](implicit 
-      mkLens: MkFieldLens.Aux[S, H, A]): Aux[S, H :: HNil, A] =
-    mkLens() |> (ln => apply(Lens(ln.get)(a => s => ln.set(s)(a))))
-
   implicit def inductive[S, H, T <: HList, A, B](implicit
-      hLens: Aux[S, H :: HNil, A],
+      hLens: MkFieldLens.Aux[S, H, A],
       tLens: Aux[A, T, B]): Aux[S, H :: T, B] =
-    apply(hLens.value composeLens tLens.value)
+    apply(toLens(hLens()) composeLens tLens.value)
+
+  private def toLens[S, A](sln: shapeless.Lens[S, A]): Lens[S, A] =
+    Lens(sln.get)(a => s => sln.set(s)(a))
 }
 
