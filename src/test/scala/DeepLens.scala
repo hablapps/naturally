@@ -36,12 +36,12 @@ class DeepLensSpec extends FlatSpec with Matchers {
   }
 
   it should "generate the identity lens" in {
-    val city = Shapelens[City, HNil]
+    val city = DeepLens[City, HNil]
     city.get(mostoles) shouldBe mostoles
     city.set(leganes)(mostoles) shouldBe leganes
   }
 
-  "Shapelens[City, budget :: HNil]" shouldNot compile
+  "DeepLens[City, budget :: HNil]" shouldNot compile
 
   // XXX: is it possible to integrate `LabelledGeneric` with literal types? If
   // so, we could avoid these aliases and use `'population` directly!
