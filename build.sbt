@@ -3,7 +3,8 @@ version := "0.1-SNAPSHOT"
 
 organization := "org.hablapps"
 
-scalaVersion := "2.10.6"
+scalaVersion := "2.12.6"
+// scalaVersion := "2.10.6"
 crossScalaVersions := Seq("2.12.6", "2.10.6")
 
 addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.3")
