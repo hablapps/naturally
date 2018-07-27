@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 
 import cats.{~>, Id, Eval}
 import cats.data.{Reader => CReader, State}

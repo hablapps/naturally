@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 
 import cats._, cats.data._, cats.implicits._
 

@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package test
 
 import cats.{Id, ~>}, cats.data.{Kleisli, Reader}

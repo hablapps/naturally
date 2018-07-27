@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 
 import cats.~>, cats.data.Kleisli
 

@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package util
 
 import shapeless._

@@ -53,12 +53,12 @@ publishTo := sonatypePublishTo.value
 sonatypeProfileName := "org.hablapps"
 publishMavenStyle := true
 licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
-sonatypeProjectHosting := Some(GitHubHosting("hablapps", "puretest", "juanmanuel.serrano@hablapps.com"))
-homepage := Some(url("https://github.com/hablapps/puretest"))
+sonatypeProjectHosting := Some(GitHubHosting("hablapps", "naturally", "juanmanuel.serrano@hablapps.com"))
+homepage := Some(url("https://github.com/hablapps/naturally"))
 scmInfo := Some(
   ScmInfo(
-    url("https://github.com/hablapps/puretest"),
-    "scm:git@github.com:hablapps/puretest.git"
+    url("https://github.com/hablapps/naturally"),
+    "scm:git@github.com:hablapps/naturally.git"
   )
 )
 developers := List(

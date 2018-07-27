@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package test
 
 import org.scalatest._

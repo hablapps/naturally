@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package monocle
 
 import _root_.monocle.{Getter => MGetter}

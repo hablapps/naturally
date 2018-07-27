@@ -1,5 +1,5 @@
-package object shapelens
+package object naturally
   extends SurfaceGetter.Syntax
   with SurfaceGetterK.Syntax
   with SurfaceLens.Syntax
-  with shapelens.monocle.Getter.Implicits
+  with naturally.monocle.Getter.Implicits

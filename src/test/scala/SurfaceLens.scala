@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package test
 
 import cats.data.State, cats.{Id, Eval}

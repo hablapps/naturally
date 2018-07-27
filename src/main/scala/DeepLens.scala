@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 
 import scalaz._, Scalaz._
 import shapeless._, labelled._
