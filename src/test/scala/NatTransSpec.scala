@@ -58,12 +58,21 @@ class NatTransSpec extends FunSpec with Matchers{
   def echo[P[_]: IO: Monad](): P[Unit] =
     IO[P].read() >>= IO[P].write
 
+  // Tests
 
-  describe("Running `echo` with plain instance"){
+  describe("Running `echo` with plain program"){
     it("should work"){
-      // TBD: problems in inferring Monad with 2.10
       echo[IOState.Program]().run(IOState(List("hi"),List())) shouldBe
         Right((IOState(List(), List("hi")), ()))
+    }
+  }
+
+  describe("Invoking `echo` with subsuming programs"){
+
+    type Program[t] = StateT[Either[IOState.NothingToBeRead, ?], (IOState, String), t]
+
+    it ("should work"){
+      echo[Program]()(IOState.StateMonadIO.lift[Program], implicitly): Program[Unit]
     }
   }
 
