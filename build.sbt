@@ -1,4 +1,4 @@
-name := "shapelens"
+name := "naturally"
 version := "0.1-SNAPSHOT"
 
 organization := "org.hablapps"
