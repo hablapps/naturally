@@ -23,6 +23,7 @@ scalacOptions ++= Seq(
   "-unchecked",
   "-deprecation",
   "-feature",
+  // "-Xlog-implicits",
   "-language:postfixOps",
   "-language:implicitConversions",
   "-language:higherKinds")

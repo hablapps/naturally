@@ -1,7 +1,7 @@
 package naturally
 
-import cats.{~>, Id, Eval}
-import cats.data.{Reader => CReader, State}
+import cats.{Applicative, ~>}
+import cats.data.{Kleisli, StateT}
 
 trait NatTrans[P[_], Q[_]]{
   val nat: P ~> Q
@@ -9,26 +9,27 @@ trait NatTrans[P[_], Q[_]]{
 
 object NatTrans{
 
-  implicit def toCatsNatTrans[P[_], Q[_]](implicit
-      N: NatTrans[P, Q]) = N.nat
+  // implicit def toCatsNatTrans[P[_], Q[_]](implicit
+  //     N: NatTrans[P, Q]) = N.nat
 
-  implicit def SurfaceGetterNatTrans[E2, E1](implicit
-      S: SurfaceGetter[Id, E2, E1]) =
-    new NatTrans[CReader[E1,?], CReader[E2,?]]{
+  implicit def SurfaceGetterNatTrans[P[_], E2, E1](implicit
+      S: SurfaceGetter[P, E2, E1]) =
+    new NatTrans[Kleisli[P, E1,?], Kleisli[P, E2,?]]{
       val nat = S.apply
     }
 
-  implicit def SurfaceLensNatTrans[E2, E1](implicit
-      S: SurfaceLens[Eval, E2, E1]) =
-    new NatTrans[State[E1,?], State[E2,?]]{
+  implicit def SurfaceLensNatTrans[P[_], E2, E1](implicit
+      S: SurfaceLens[P, E2, E1]) =
+    new NatTrans[StateT[P, E1, ?], StateT[P, E2, ?]]{
       val nat = S.apply
     }
 
-  implicit def KleisliToStateTNatTrans[E1, E2](implicit
-      K: KleisliToStateT[Id, E2, E1]) =
-    new NatTrans[CReader[E1,?], State[E2,?]]{
-      val nat = λ[CReader[E1,?] ~> State[E2,?]]{
-        p => K.apply(p).transformF(cats.Eval.now)
+  implicit def KleisliToStateTNatTrans[P[_]: Applicative, E1, E2](implicit
+      K: KleisliToStateT[P, E2, E1]) =
+    new NatTrans[Kleisli[P, E1, ?], StateT[P, E2, ?]]{
+      val nat = new (Kleisli[P, E1, ?] ~> StateT[P, E2, ?]){
+        def apply[T](p: Kleisli[P, E1, T]) =
+          K.apply(p)
       }
     }
 

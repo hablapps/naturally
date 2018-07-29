@@ -1,4 +1,4 @@
-package shapelens
+package naturally
 package test
 
 import cats.data._, cats._, cats.instances.either._, cats.syntax.flatMap._
@@ -72,6 +72,7 @@ class NatTransSpec extends FunSpec with Matchers{
     type Program[t] = StateT[Either[IOState.NothingToBeRead, ?], (IOState, String), t]
 
     it ("should work"){
+      implicitly[naturally.SurfaceLens[Either[IOState.NothingToBeRead,?], (IOState, String), IOState]]
       echo[Program]()(IOState.StateMonadIO.lift[Program], implicitly): Program[Unit]
     }
   }
