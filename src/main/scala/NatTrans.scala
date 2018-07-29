@@ -9,8 +9,8 @@ trait NatTrans[P[_], Q[_]]{
 
 object NatTrans{
 
-  // implicit def toCatsNatTrans[P[_], Q[_]](implicit
-  //     N: NatTrans[P, Q]) = N.nat
+  implicit def toCatsNatTrans[P[_], Q[_]](implicit
+      N: NatTrans[P, Q]) = N.nat
 
   implicit def SurfaceGetterNatTrans[P[_], E2, E1](implicit
       S: SurfaceGetter[P, E2, E1]) =

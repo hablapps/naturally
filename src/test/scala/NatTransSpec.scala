@@ -72,7 +72,10 @@ class NatTransSpec extends FunSpec with Matchers{
     type Program[t] = StateT[Either[IOState.NothingToBeRead, ?], (IOState, String), t]
 
     it ("should work"){
+<<<<<<< HEAD
       implicitly[naturally.SurfaceLens[Either[IOState.NothingToBeRead,?], (IOState, String), IOState]]
+=======
+>>>>>>> f647371e20a3c8292c34357bf076a672572cf820
       echo[Program]()(IOState.StateMonadIO.lift[Program], implicitly): Program[Unit]
     }
   }
