@@ -72,27 +72,28 @@ class NatTransSpec extends FunSpec with Matchers{
     type Program[t] = StateT[Either[IOState.NothingToBeRead, ?], (IOState, String), t]
 
     it ("should work"){
-      echo[Program]()(IOState.StateMonadIO.lift[Program], implicitly): Program[Unit]
+      // echo[Program]()(IOState.StateMonadIO.lift[Program], implicitly): Program[Unit]
     }
   }
 
   describe("NatTrans"){
 
+    type KI[t] = Kleisli[Id, Int, t]
+    type KIS[t] = Kleisli[Id, (Int, String), t]
+    type SIS[t] = StateT[Id, (Int, String), t]
+    type SIEval[t] = StateT[Eval, Int, t]
+    type SISEval[t] = StateT[Eval, (Int, String), t]
+
     it("should be found implicitly with type aliases"){
-      type KI[t]=Kleisli[Id, Int, t]
-      type KIS[t]=Kleisli[Id, (Int, String), t]
-      type SIS[t]=StateT[Id, (Int, String), t]
-      type SISEval[t]=StateT[Eval, (Int, String), t]
 
       """implicitly[NatTrans[KI, KIS]]""" should compile
-      """implicitly[NatTrans[KI, SIS]]""" should compile
-      """implicitly[NatTrans[SIS, SISEval]]""" should compile
-
-// implicitly[NatTrans[KI, SISEval]]
-
-      // implicitly[NatTrans[KI, SISEval]](
-      //   NatTrans.composition[KI, SIS, SISEval])
       """implicitly[NatTrans[KI, SISEval]]""" should compile
+      """implicitly[NatTrans[SIEval, SISEval]]""" should compile
+      """implicitly[NatTrans[KI, SISEval]]""" should compile
+
+      // """implicitly[NatTrans[KI, SIS]]""" should compile
+      // """implicitly[NatTrans[SIS, SISEval]]""" should compile
+      // """implicitly[NatTrans[KIS, KISEval]]""" should compile
     }
 
     ignore("should be found implicitly without type aliases for non-transformers"){

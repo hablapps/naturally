@@ -1,7 +1,7 @@
 package naturally
 
-import cats.{Applicative, ~>}
-import cats.data.{Kleisli, StateT}
+import cats.{Applicative, ~>, Id, Eval}
+import cats.data.{Kleisli, State}
 
 trait NatTrans[P[_], Q[_]]{
   val nat: P ~> Q
@@ -13,37 +13,37 @@ object NatTrans extends NatTransLPI{
     val nat = _nat
   }
 
-  implicit def SurfaceGetterNatTrans[P[_], E2, E1](implicit
-      S: SurfaceGetter[P, E2, E1]) =
-    apply(S.apply)
+  implicit def SurfaceGetterNatTrans[E2, E1](implicit
+      S: SurfaceGetter[Id, E2, E1]) =
+    NatTrans(S.apply)
 
-  implicit def SurfaceLensNatTrans[P[_], E2, E1](implicit
-      S: SurfaceLens[P, E2, E1]) =
-    apply(S.apply)
+  implicit def SurfaceLensNatTrans[E2, E1](implicit
+      S: SurfaceLens[Eval, E2, E1]) =
+    NatTrans(S.apply)
 
-  implicit def KleisliToStateTNatTrans[P[_]: Applicative, E1, E2](implicit
-      K: KleisliToStateT[P, E2, E1]) =
-    apply(
-      new (Kleisli[P, E1, ?] ~> StateT[P, E2, ?]){
-        def apply[T](p: Kleisli[P, E1, T]) =
-          K.apply(p)
+  implicit def KleisliToStateTNatTrans[E1, E2](implicit
+      K: KleisliToStateT[Id, E2, E1]) =
+    NatTrans(
+      new (Kleisli[Id, E1, ?] ~> State[E2, ?]){
+        def apply[T](p: Kleisli[Id, E1, T]) =
+          K.apply(p).transformF(Eval.now)
       }
     )
 
   implicit def IdToOptionNatTrans =
-    apply(λ[cats.Id ~> Option](x => Option(x)))
+    NatTrans(λ[Id ~> Option](x => Option(x)))
 
   implicit def IdToEvalNatTrans =
-    apply(λ[cats.Id ~> cats.Eval](x => cats.Eval.now(x)))
+    NatTrans(λ[Id ~> Eval](x => Eval.now(x)))
 
-  implicit def StateTHoistNatTrans[P[_]: cats.FlatMap, Q[_]: Applicative, E](implicit
-      K: NatTrans[P, Q]) =
-    apply(
-      new (StateT[P, E, ?] ~> StateT[Q, E, ?]){
-        def apply[T](p: StateT[P, E, T]) =
-          p.transformF[Q, T](K.nat.apply _)
-      }
-    )
+  // implicit def StateTHoistNatTrans[P[_]: FlatMap, Q[_]: Applicative, E](implicit
+  //     K: NatTrans[P, Q]) =
+  //   NatTrans(
+  //     new (StateT[P, E, ?] ~> StateT[Q, E, ?]){
+  //       def apply[T](p: StateT[P, E, T]) =
+  //         p.transformF[Q, T](K.nat.apply _)
+  //     }
+  //   )
 }
 
 trait NatTransLPI{
