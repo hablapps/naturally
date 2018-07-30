@@ -76,5 +76,33 @@ class NatTransSpec extends FunSpec with Matchers{
     }
   }
 
+  describe("NatTrans"){
 
+    it("should be found implicitly with type aliases"){
+      type KI[t]=Kleisli[Id, Int, t]
+      type KIS[t]=Kleisli[Id, (Int, String), t]
+      type SIS[t]=StateT[Id, (Int, String), t]
+      type SISEval[t]=StateT[Eval, (Int, String), t]
+
+      """implicitly[NatTrans[KI, KIS]]""" should compile
+      """implicitly[NatTrans[KI, SIS]]""" should compile
+      """implicitly[NatTrans[SIS, SISEval]]""" should compile
+
+// implicitly[NatTrans[KI, SISEval]]
+
+      // implicitly[NatTrans[KI, SISEval]](
+      //   NatTrans.composition[KI, SIS, SISEval])
+      """implicitly[NatTrans[KI, SISEval]]""" should compile
+    }
+
+    ignore("should be found implicitly without type aliases for non-transformers"){
+      """implicitly[NatTrans[State[Int,?], State[(Int, String), ?]]]""" should compile
+      """implicitly[NatTrans[Reader[Int,?], Reader[(Int, String), ?]]]""" should compile
+    }
+
+    ignore("should be found implicitly without type aliases for transformers"){
+      """implicitly[NatTrans[StateT[Id, Int, ?], StateT[Id, (Int, String), ?]]]""" should compile
+      """implicitly[NatTrans[Kleisli[Id, Int,?], Kleisli[Id, (Int, String), ?]]]""" should compile
+    }
+  }
 }
