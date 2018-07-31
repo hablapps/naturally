@@ -47,6 +47,18 @@ class ImplicitlySpec extends FunSpec with Matchers{
     }
   }
 
+  describe("Case classes with some parameters implicits"){
+
+    case class B[P[_]: cats.Monad](
+      R1: MonadReader[P, Int],
+      R2: MonadReader[P, String])
+
+    it("should be instantiated Implicitly"){
+
+      """Implicitly[B[Program]]""" should compile
+    }
+  }
+
   describe("Classes with implicit values in scope"){
 
     it("should be summoned with Implicitly"){
