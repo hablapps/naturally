@@ -3,7 +3,7 @@ package naturally
 import cats.{Applicative, ~>, Id, Eval}
 import cats.data.{Kleisli, State}
 
-trait NatTrans[P[_], Q[_]]{
+trait NatTrans[P[_], Q[_]] extends Serializable{
   val nat: P ~> Q
 }
 

@@ -5,7 +5,7 @@ import cats._, cats.data._, cats.implicits._
 import shapeless._, ops.hlist._
 import util.SetAll
 
-trait SurfaceLens[P[_], E2, E1]{
+trait SurfaceLens[P[_], E2, E1] extends Serializable{
   val apply: StateT[P, E1, ?] ~> StateT[P, E2, ?]
 }
 

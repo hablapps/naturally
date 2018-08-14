@@ -2,7 +2,7 @@ package naturally
 
 import cats._, cats.data._, cats.implicits._
 
-trait KleisliToStateT[P[_], E2, E1]{
+trait KleisliToStateT[P[_], E2, E1] extends Serializable{
   val apply: Kleisli[P, E1, ?] ~> StateT[P, E2, ?]
 }
 

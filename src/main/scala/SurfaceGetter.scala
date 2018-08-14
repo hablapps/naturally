@@ -4,7 +4,7 @@ import cats._, cats.data._
 
 import shapeless._, ops.hlist._
 
-trait SurfaceGetter[P[_], E2, E1]{
+trait SurfaceGetter[P[_], E2, E1] extends Serializable{
   val apply: Kleisli[P, E1, ?] ~> Kleisli[P, E2, ?]
 }
 
