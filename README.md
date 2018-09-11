@@ -1,4 +1,4 @@
-# Shapelens
+# Naturally
 
 This is just an experiment to generate and deploy the [monocle](https://github.com/julien-truffaut/Monocle) `Lens`es associated to a case class as implicit values, using [shapeless](https://github.com/milessabin/shapeless) instead of macros. 
 
