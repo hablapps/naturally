@@ -1,7 +1,7 @@
 package naturally
 
 import scalaz._, Scalaz._
-import shapeless._, labelled._
+import shapeless._
 
 trait DeepLens[S, Ctx <: HList] {
   type A
