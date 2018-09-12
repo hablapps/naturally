@@ -34,17 +34,12 @@ scalacOptions ++= scalaVersion{
 scalacOptions in (Compile, console) ~= (_ filterNot (_ == "-Xlint"))
 scalacOptions in (Test, console) := (scalacOptions in (Compile, console)).value
 
-val monocleVersion = "1.5.0"
-
 libraryDependencies ++= Seq(
   "org.scalaz" %% "scalaz-core" % "7.2.8",
   "org.typelevel" %% "cats-core" % "0.9.0",
   "org.scalactic" %% "scalactic" % "3.0.5",
   "org.scalatest" %% "scalatest" % "3.0.5" % "test",
-  "com.chuusai" %% "shapeless" % "2.3.2",
-  "com.github.julien-truffaut" %%  "monocle-core"  % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-macro" % monocleVersion,
-  "com.github.julien-truffaut" %%  "monocle-law"   % monocleVersion % "test")
+  "com.chuusai" %% "shapeless" % "2.3.2")
 
 // Sonatype publishing conf.
 import xerial.sbt.Sonatype._
